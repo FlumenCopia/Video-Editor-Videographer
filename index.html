@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlumenX & Misc Archive — HR Documentation System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1A1A;
+    --cream: #F9F5EE;
+    --cream2: #F2EDE3;
+    --forest: #0D2B1F;
+    --forest2: #1A4A32;
+    --gold: #B8943A;
+    --gold2: #C9A84C;
+    --rose: #C4776A;
+    --teal: #5BA8A8;
+    --sage: #7BA89A;
+    --muted: #6B6B6B;
+    --border: #DDD5C4;
+    --white: #FFFFFF;
+    --warn-red: #C0392B;
+    --warn-orange: #E67E22;
+    --warn-yellow: #F39C12;
+    --success: #27AE60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ─── MASTER HUB ─── */
+  #hub {
+    display: block;
+    min-height: 100vh;
+  }
+
+  .hub-header {
+    background: linear-gradient(135deg, #0A1F12 0%, #143322 50%, #1A4228 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hub-header::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(184,148,58,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(91,168,168,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hub-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .brand-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(184,148,58,0.4);
+  }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--gold2);
+  }
+
+  .hub-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .hub-title em {
+    color: var(--gold2);
+    font-style: italic;
+  }
+
+  .hub-sub {
+    font-size: 14px;
+    color: rgba(249,245,238,0.6);
+    letter-spacing: 0.5px;
+  }
+
+  .hub-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hub-meta-item {
+    font-size: 11px;
+    color: rgba(249,245,238,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .hub-meta-item span {
+    color: var(--gold2);
+    font-weight: 600;
+  }
+
+  /* ─── SEARCH & FILTER ─── */
+  .hub-controls {
+    background: var(--forest);
+    padding: 20px 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .hub-search {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(184,148,58,0.3);
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .hub-search::placeholder { color: rgba(249,245,238,0.4); }
+  .hub-search:focus { border-color: var(--gold2); }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 8px 16px;
+    color: rgba(249,245,238,0.7);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--forest);
+    font-weight: 600;
+  }
+
+  /* ─── LEGEND ─── */
+  .hub-legend {
+    background: var(--cream2);
+    padding: 16px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .legend-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .dot-handbook { background: var(--forest2); }
+  .dot-manual { background: var(--warn-red); }
+
+  /* ─── ROLE SECTIONS ─── */
+  .hub-content {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .dept-section {
+    margin-bottom: 48px;
+  }
+
+  .dept-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--forest2);
+  }
+
+  .dept-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--forest2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--gold2);
+  }
+
+  .dept-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--forest);
+  }
+
+  .dept-count {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--cream2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-left: auto;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .role-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .role-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(13,43,31,0.12);
+  }
+
+  .role-card-header {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest2) 100%);
+    padding: 20px 24px 16px;
+  }
+
+  .role-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 6px;
+  }
+
+  .role-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .role-card-body {
+    padding: 16px 24px 20px;
+  }
+
+  .role-versions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .version-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .version-btn.handbook {
+    background: rgba(13,43,31,0.06);
+    border: 1px solid rgba(26,74,50,0.2);
+  }
+
+  .version-btn.handbook:hover {
+    background: var(--forest2);
+    color: var(--cream);
+  }
+
+  .version-btn.manual {
+    background: rgba(192,57,43,0.05);
+    border: 1px solid rgba(192,57,43,0.2);
+  }
+
+  .version-btn.manual:hover {
+    background: var(--warn-red);
+    color: var(--white);
+  }
+
+  .version-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .handbook .version-icon { background: var(--forest2); color: var(--gold2); }
+  .manual .version-icon { background: var(--warn-red); color: white; }
+
+  .version-btn:hover .version-icon {
+    background: rgba(255,255,255,0.2) !important;
+  }
+
+  .version-info {}
+  .version-type {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.7;
+  }
+  .version-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .version-btn:hover .version-name { color: inherit; }
+
+  /* ─── DOCUMENT VIEW ─── */
+  #doc-view {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .doc-topbar {
+    background: var(--forest);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 7px 16px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .back-btn:hover { background: rgba(255,255,255,0.18); }
+
+  .doc-topbar-info {
+    flex: 1;
+  }
+
+  .doc-topbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--cream);
+  }
+
+  .doc-topbar-sub {
+    font-size: 11px;
+    color: rgba(249,245,238,0.5);
+  }
+
+  .doc-type-badge {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .badge-handbook { background: var(--forest2); color: var(--gold2); }
+  .badge-manual { background: var(--warn-red); color: white; }
+
+  .print-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    color: var(--forest);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: var(--gold2); }
+
+  /* ─── DOCUMENT CONTENT ─── */
+  .doc-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  .doc-cover {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .doc-cover-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .doc-cover-badge.handbook { background: var(--forest); color: var(--gold2); }
+  .doc-cover-badge.manual { background: var(--warn-red); color: white; }
+
+  .doc-cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .doc-cover h1.manual-title { color: var(--warn-red); }
+
+  .doc-cover p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .doc-cover-meta {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .doc-cover-meta-item {
+    text-align: center;
+  }
+
+  .dcm-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .dcm-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ─── DOCUMENT SECTIONS ─── */
+  .doc-section {
+    margin-bottom: 36px;
+  }
+
+  .doc-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--forest);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .doc-section-title .sec-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  h3.sub-section {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--forest2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 24px 0 10px;
+  }
+
+  p.body-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  ul.doc-list {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  ul.doc-list li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  ul.doc-list li strong { color: var(--forest2); }
+
+  /* ─── TABLES ─── */
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .doc-table th {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .doc-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .doc-table tr:nth-child(even) td { background: var(--cream2); }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border-left: 3px solid;
+  }
+
+  .callout-warning {
+    background: rgba(192,57,43,0.06);
+    border-color: var(--warn-red);
+  }
+
+  .callout-warning strong { color: var(--warn-red); }
+
+  .callout-info {
+    background: rgba(91,168,168,0.08);
+    border-color: var(--teal);
+  }
+
+  .callout-info strong { color: var(--teal); }
+
+  .callout-gold {
+    background: rgba(184,148,58,0.08);
+    border-color: var(--gold);
+  }
+
+  .callout-gold strong { color: var(--gold); }
+
+  .callout p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  /* ─── ESCALATION TIERS ─── */
+  .escalation-tier {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .tier-badge {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: white;
+    margin-top: 2px;
+  }
+
+  .tier-1 { background: var(--warn-yellow); }
+  .tier-2 { background: var(--warn-orange); }
+  .tier-3 { background: var(--warn-red); }
+  .tier-4 { background: #6C0000; }
+
+  .tier-content {}
+  .tier-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .tier-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  /* ─── EMAIL TEMPLATES ─── */
+  .email-template {
+    background: #F7F9FC;
+    border: 1px solid #D0D9E4;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .email-header {
+    background: #2C3E50;
+    padding: 10px 16px;
+    color: white;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .email-meta {
+    background: #EEF2F7;
+    padding: 12px 16px;
+    border-bottom: 1px solid #D0D9E4;
+  }
+
+  .email-meta-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+
+  .email-meta-row strong { color: #2C3E50; min-width: 50px; }
+
+  .email-body {
+    padding: 16px;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── KPI TABLE ─── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .kpi-row.header {
+    background: var(--forest);
+    color: var(--cream);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .kpi-cell {
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .kpi-row:nth-child(even) .kpi-cell { background: var(--cream2); }
+
+  .badge-green { color: var(--success); font-weight: 600; }
+  .badge-red { color: var(--warn-red); font-weight: 600; }
+  .badge-gold { color: var(--gold); font-weight: 600; }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: var(--cream2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .toc-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink);
+    transition: color 0.15s;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .toc-item:hover { color: var(--forest2); }
+
+  .toc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 28px;
+  }
+
+  .toc-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin: 0 8px;
+  }
+
+  /* ─── PRINT STYLES ─── */
+  @media print {
+    #hub { display: none !important; }
+    .doc-topbar { display: none !important; }
+    .doc-wrapper { padding: 24px !important; }
+    #doc-view { display: block !important; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hub-header { padding: 40px 20px 32px; }
+    .hub-controls { padding: 16px 20px; }
+    .hub-content { padding: 24px 16px; }
+    .hub-legend { padding: 12px 20px; gap: 16px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .doc-wrapper { padding: 24px 20px 60px; }
+    .doc-topbar { padding: 12px 16px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ MASTER HUB ═══ -->
+<div id="hub">
+
+
+
+  <div class="hub-content" id="hubContent">
+
+    <!-- CREATIVE DEPARTMENT -->
+    <div class="dept-section" data-dept="creative">
+
+
+        <!-- <div class="role-card" data-dept="creative" data-role="video-editor">
+          <div class="role-card-header">
+            <div class="role-tag">Creative · Video</div>
+            <div class="role-title">Video Editor / Videographer</div>
+          </div>
+          <div class="role-card-body">
+            <div class="role-versions">
+              <button class="version-btn handbook" onclick="openDoc('video-editor-handbook')">
+                <div class="version-icon">📋</div>
+                <div class="version-info">
+                  <div class="version-type">Version 1</div>
+                  <div class="version-name">Employee Handbook</div>
+                </div>
+              </button>
+
+            </div>
+          </div>
+        </div> -->
+      <div class="doc-cover">
+        <div class="doc-cover-badge handbook">Employee Handbook · Version 1.0</div>
+        <h1>Video Editor / Videographer<br><em>Employee Handbook</em></h1>
+        <p>FlumenX & Misc Archive</p>
+        <div class="doc-cover-meta">
+          <div class="doc-cover-meta-item"><div class="dcm-label">Effective</div><div class="dcm-value">June 2026</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Department</div><div class="dcm-value">Creative</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Reports To</div><div class="dcm-value">Creative Head / CEO</div></div>
+        </div>
+      </div>
+
+    <div class="doc-section" id="sec-company">
+      <div class="doc-section-title"><span class="sec-num">01</span> About FlumenX & Misc Archive</div>
+      <p class="body-text"><strong>Misc Archive</strong> is a Udyam-registered micro enterprise (IEC: CFRPA1500H) and the parent proprietorship under which all verticals operate on the Banyan Tree Model — one deeply rooted entity with multiple branches. <strong>FlumenX</strong> is the creative systems and digital marketing agency vertical, known for branding, digital strategy, SAG·EO (Search + AI + GEO Optimisation), web development, AV production, and personal branding under the Signature Presence framework.</p>
+      <p class="body-text"><strong>Founder & CEO:</strong> Anoop Krishna V A &nbsp;|&nbsp; <strong>CFO:</strong> Anoop D. Anil &nbsp;|&nbsp; <strong>CBO:</strong> Kannan CB &nbsp;|&nbsp; <strong>BHR:</strong> Rohini A Pillai</p>
+      <p class="body-text"><strong>Office:</strong>  Gautham Villa T, C7/82, Kairali Nagar, Kanjirampara, Thiruvananthapuram, Kerala 695030 
+        | <strong>Phone:</strong> +91 8907 634900 | <strong>Web:www.flumenx.com </strong> |  www.miscarchive.com</p>
+    </div>
+    <div class="doc-section" id="sec-values">
+      <div class="doc-section-title"><span class="sec-num">02</span> Core Values</div>
+      <ul class="doc-list">
+        <li><strong>Craft Over Commodity:</strong> We produce work that is thoughtful, beautiful, and purposeful — never generic.</li>
+        <li><strong>Ownership Mindset:</strong> Every team member is expected to own their work end-to-end, not just execute tasks.</li>
+        <li><strong>Transparency:</strong> Internal and client communication must be honest, timely, and clear.</li>
+        <li><strong>Continuous Growth:</strong> We invest in learning. Stagnation is not acceptable.</li>
+        <li><strong>Accountability Without Blame:</strong> When things go wrong, we fix them and learn — we do not cover up.</li>
+        <li><strong>Client-Centricity:</strong> Client success is our success. Every decision must pass the question: "Does this serve the client well?"</li>
+      </ul>
+    </div>
+
+  
+  <div class="doc-section" id="sec-attendance">
+      <div class="doc-section-title"><span class="sec-num">03</span> Attendance & Working Hours</div>
+      <h3 class="sub-section">Office Hours</h3>
+      <p class="body-text">Standard working hours are <strong>9:30 AM to 6:30 PM, Monday to Saturday</strong>. Core mandatory hours are 10:00 AM to 5:00 PM. Lunch break is 1:00 PM to 2:00 PM.</p>
+      <h3 class="sub-section">Late-Coming Policy</h3>
+      <p class="body-text">A grace period of 10 minutes is allowed. Late arrival is permitted a maximum of <strong>3 times per calendar month</strong>. From the 4th late instance onward, a <strong>half-day salary deduction</strong> will apply per occurrence. Habitual late-coming (more than 5 times in a month) will be addressed through the performance warning system.</p>
+      <h3 class="sub-section">Contingency — Remote Work</h3>
+      <p class="body-text">FlumenX does not have a general Work From Home policy. All employees are expected to be present at the office during working hours. Remote work is permitted <strong>only</strong> in the following specific contingency situations, and requires explicit manager approval each time:</p>
+      <ul class="doc-list">
+        <li><strong>Power Failure:</strong> If office power is unavailable for more than 2 continuous hours and work cannot continue on battery, the manager may authorise working remotely for the remainder of that day only.</li>
+        <li><strong>Hartal / Bandh:</strong> If a state or national strike prevents safe travel to office, employees may work from home that day. The CEO or Operations Manager will communicate this decision by 8:30 AM via the official WhatsApp group.</li>
+        <li><strong>Natural Calamity:</strong> Floods, cyclones, or red-alert weather events. Safety takes priority — employees should inform their manager and work remotely if conditions are dangerous. No leave will be deducted in genuine calamity situations.</li>
+      </ul>
+      <p class="body-text">In all contingency cases: you must be reachable during office hours, attend all scheduled calls, and deliver daily targets as normal. Contingency remote work days do not accumulate or transfer to other days.</p>
+      <h3 class="sub-section">Daily Stand-Up</h3>
+      <p class="body-text">Mandatory team stand-up meeting every Monday at 10:00 AM. All team members must attend and actively participate. Silent attendance is noted and will be flagged after the second consecutive occurrence.</p>
+    </div>
+
+    <div class="doc-section" id="sec-leave">
+      <div class="doc-section-title"><span class="sec-num">04</span> Leave Policy</div>
+      <table class="doc-table">
+        <tr><th>Leave Type</th><th>Entitlement</th><th>Eligibility</th><th>Notes</th></tr>
+        <tr><td>Sick Leave</td><td>1/month (12/year)</td><td>After 6 months</td><td>Medical certificate required for 2+ consecutive days</td></tr>
+        <tr><td>Casual/Paid Leave</td><td>1/month (12/year)</td><td>After 6 months</td><td>Must be pre-approved 7 days in advance</td></tr>
+        <tr><td>Emergency Leave</td><td>As needed</td><td>Immediate</td><td>Inform within 2 hours of absence. Documentation required.</td></tr>
+        <tr><td>Public Holidays</td><td>As per Kerala Govt list</td><td>All staff</td><td>Announced at start of year</td></tr>
+      </table>
+      <div class="callout callout-warning">
+        <p><strong>New Joiners:</strong> Leave entitlement begins only after completing 6 months of employment. Leaves taken before this period will be treated as Loss of Pay (LOP) unless approved as an exceptional case by the CEO.</p>
+      </div>
+      <h3 class="sub-section">Leave Application Process</h3>
+      <p class="body-text">For planned leave: Email to <strong>hr@flumenx.com</strong> with CC to your direct manager and <strong>marketing@miscarchive.com</strong> at least 7 days in advance. Subject line: <code>Leave Request — [Your Name] — [Dates]</code>. Include leave type, reason, and handover plan. Wait for written approval before taking leave.</p>
+      <p class="body-text">For emergency leave: Call or WhatsApp your direct manager and send email to HR by 9:00 AM. Do not simply not show up without informing anyone — this will be treated as Absent Without Leave (AWOL) and is subject to disciplinary action.</p>
+    </div>
+
+    <div class="doc-section" id="sec-conduct">
+      <div class="doc-section-title"><span class="sec-num">05</span> Code of Conduct & Professionalism</div>
+      <h3 class="sub-section">Communication Standards</h3>
+      <ul class="doc-list">
+        <li>All client-facing communication (emails, calls, meetings) must be professional, grammatically correct, and timely (respond within 4 hours during business hours).</li>
+        <li>Internal WhatsApp groups are for work communication — memes, political content, and personal arguments are not permitted.</li>
+        <li>Escalations and complaints must go through proper channels — do not discuss client or company issues on personal social media.</li>
+      </ul>
+      <h3 class="sub-section">Dress Code</h3>
+      <p class="body-text">Business casual at the office. On client visit days, business formal or smart formal is expected. Maintain hygiene and presentability at all times.</p>
+      <h3 class="sub-section">Confidentiality & NDA</h3>
+      <p class="body-text">All employees are bound by the Non-Disclosure Agreement signed at joining. This covers: client names, project details, pricing, internal processes, strategies, source code, and any proprietary frameworks (including SAG·EO). Breach of confidentiality will result in immediate termination and potential legal action.</p>
+      <h3 class="sub-section">Device & Software Policy</h3>
+      <p class="body-text">Company devices, accounts, and software licenses must not be used for personal projects. All client assets, credentials, and deliverables created during employment belong to Misc Archive / FlumenX. Files must be stored in designated shared drives and not on personal devices unless expressly approved.</p>
+    </div>
+
+    <div class="doc-section" id="sec-performance">
+      <div class="doc-section-title"><span class="sec-num">06</span> Performance & Compensation</div>
+      <h3 class="sub-section">Review Cycle</h3>
+      <p class="body-text">Monthly 1-on-1 reviews are conducted with the direct manager or CEO. Quarterly formal reviews assess overall performance against KPIs, with raise recommendations submitted to the CEO.</p>
+      <h3 class="sub-section">Salary & Increments</h3>
+      <p class="body-text">Salary is paid between the <strong>5th–12th of each calendar month</strong> via bank transfer. If the payment date falls on a Sunday or declared holiday, salary will be credited on the next working day. Any delay beyond the 12th will be communicated by the CEO or CFO in advance. Annual increments range from 5–15% based on performance ratings. Increments are effective when the company's monthly revenue exceeds ₹8L. Quarterly bonuses are discretionary based on individual and company performance.</p>
+      <h3 class="sub-section">Learning Budget</h3>
+      <p class="body-text">₹5,000 per employee per year for courses, certifications, and skill development (approved by manager in advance). Employee referral bonus: ₹10,000 for a successful hire who completes 6+ months.</p>
+    </div>
+
+    <div class="doc-section" id="sec-discipline">
+      <div class="doc-section-title"><span class="sec-num">07</span> Disciplinary Framework</div>
+      <div class="callout callout-info">
+        <p><strong>How warnings work:</strong> This section explains what happens when you violate policies. The intent is not punitive — it is to create a clear, fair, and documented process. All warnings are placed on record and affect performance ratings and increment eligibility.</p>
+      </div>
+      <h3 class="sub-section">Progressive Discipline Tiers</h3>
+      <div class="escalation-tier">
+        <div class="tier-badge tier-1">1</div>
+        <div class="tier-content">
+          <div class="tier-label">Verbal Warning</div>
+          <div class="tier-text">Issued for minor, first-time violations (minor lateness, small quality issues, missing a stand-up once). Documented internally by the manager. No formal record added to your HR file at this stage.</div>
+        </div>
+      </div>
+      <div class="escalation-tier">
+        <div class="tier-badge tier-2">2</div>
+        <div class="tier-content">
+          <div class="tier-label">Written Warning (Level 1)</div>
+          <div class="tier-text">Issued for repeated minor violations or a first-time moderate violation. Formal email from HR. Added to your HR file. Affects quarterly bonus eligibility. You must sign acknowledgement.</div>
+        </div>
+      </div>
+      <div class="escalation-tier">
+        <div class="tier-badge tier-3">3</div>
+        <div class="tier-content">
+          <div class="tier-label">Written Warning (Level 2) + Performance Improvement Plan (PIP)</div>
+          <div class="tier-text">Issued for a third violation or escalation of moderate violations. Formal PIP is initiated — a 30-day structured improvement program. No increment or bonus during PIP. Continued failure leads to Tier 4.</div>
+        </div>
+      </div>
+      <div class="escalation-tier">
+        <div class="tier-badge tier-4">4</div>
+        <div class="tier-content">
+          <div class="tier-label">Termination or Suspension</div>
+          <div class="tier-text">Issued when PIP fails, or immediately for serious offenses (data breach, client harassment, financial misconduct, gross insubordination, AWOL for 3+ days). Termination without notice period for gross misconduct. Final settlement cleared within 15 days.</div>
+        </div>
+      </div>
+      <div class="callout callout-warning">
+        <p><strong>Zero Tolerance Offenses (immediate termination):</strong> Sexual harassment, discrimination, intentional data leak/NDA breach, theft, fraud, and physical violence. No progressive discipline applies for these.</p>
+      </div>
+      <h3 class="sub-section">Appeal Process</h3>
+      <p class="body-text">Any employee may appeal a disciplinary decision to the CEO in writing within 7 days of receiving a warning. The CEO's decision after a fair hearing is final. Employees are encouraged to raise genuine concerns — this process is not meant to suppress feedback.</p>
+    </div>
+
+    <div class="doc-section" id="sec-exit">
+      <div class="doc-section-title"><span class="sec-num">08</span> Resignation & Exit</div>
+      <ul class="doc-list">
+        <li><strong>Notice Period:</strong> 30 days (staff); 60 days (senior/leadership roles). Written resignation must be submitted via email to HR and the CEO.</li>
+        <li><strong>Handover:</strong> All pending tasks, files, credentials, and client documentation must be transferred before the last working day.</li>
+        <li><strong>Exit Interview:</strong> Conducted by HR. Honest feedback is encouraged and will not affect your reference letter or relieving documents.</li>
+        <li><strong>Final Settlement:</strong> Salary, earned leave encashment, and all dues cleared within 15 working days. Relieving letter and experience certificate will be issued.</li>
+        <li><strong>Company Property:</strong> All devices, access credentials, files, and assets must be returned on or before the last working day.</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="sec-datasecurity">
+        <div class="doc-section-title"><span class="sec-num">09a</span> Data Security &amp; Confidentiality</div>
+        <h3 class="sub-section">Client Data Protection</h3>
+        <ul class="doc-list">
+          <li>Store all client credentials exclusively in the company password manager — never in email, WhatsApp, personal notes, or plain text files.</li>
+          <li>Use VPN when accessing client accounts remotely or from personal devices.</li>
+          <li>Log out of all client accounts immediately after use. Never leave sessions open.</li>
+          <li>Never share client passwords, brand assets, documents, or confidential materials with any party outside the team.</li>
+          <li>Screenshotting confidential client documents or financial records is strictly prohibited.</li>
+          <li>Never access client accounts from personal devices unless explicitly authorised by your manager and the CEO.</li>
+        </ul>
+        <h3 class="sub-section">Company Data Protection</h3>
+        <ul class="doc-list">
+          <li><strong>Financial data:</strong> Accessible only by the Accounts Manager, CFO, and CEO. Never discuss client pricing, margins, or salary information with colleagues or external parties.</li>
+          <li><strong>Strategic plans and client pipeline:</strong> Strictly confidential — not for external discussion under any circumstances.</li>
+          <li><strong>Design assets and proprietary templates:</strong> Company-owned resources. May not be shared with external parties or removed from company systems upon resignation.</li>
+          <li><strong>Client list:</strong> A company asset. Using client details for personal prospecting or disclosing to a third party is a terminable offence under your employment agreement.</li>
+        </ul>
+        <h3 class="sub-section">Personal Device Policy</h3>
+        <p class="body-text">If you use a personal device for work tasks, antivirus software is mandatory. All company files on personal devices must be encrypted or stored only in the company cloud system. Upon resignation or termination, delete all company data — files, emails, app credentials, and any copies — from personal devices. Failure to do so may constitute a breach of your confidentiality agreement and may be pursued legally.</p>
+        <h3 class="sub-section">Consequences of NDA / Confidentiality Violations</h3>
+        <table class="doc-table">
+          <tr><th>Situation</th><th>Action</th></tr>
+          <tr><td>Suspected data breach or accidental disclosure</td><td>Report to CEO and HR immediately. Temporary system access suspension pending investigation. IT audit initiated.</td></tr>
+          <tr><td>Proven intentional data leak (client info, contracts, credentials)</td><td>Immediate termination. Legal action under NDA/employment agreement. Financial penalties per contract. Police complaint if warranted.</td></tr>
+          <tr><td>Proven negligence leading to data exposure (failure to follow protocol)</td><td>Termination consideration. Formal Written Warning minimum. Financial liability for any measurable damages. Mandatory client notification by CEO.</td></tr>
+        </table>
+        <div class="callout callout-warning">
+          <p><strong>No second chances for serious data breaches.</strong> The company's credibility and client trust are non-negotiable assets. This policy applies equally to all employees regardless of tenure, seniority, or personal relationships within the team.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="sec-meetings">
+        <div class="doc-section-title"><span class="sec-num">09b</span> Team Meeting Participation</div>
+        <div class="callout callout-warning">
+          <p><strong>Active participation in all team meetings is mandatory.</strong> Silent attendance is treated as non-participation and is tracked in your performance record.</p>
+        </div>
+        <h3 class="sub-section">What Is Expected</h3>
+        <ul class="doc-list">
+          <li>Share your updates, blockers, and ideas clearly in every stand-up and review meeting.</li>
+          <li>When asked for input — respond. Silence is treated as disengagement, not neutrality.</li>
+          <li>Come prepared: review your task list and project status before attending any meeting.</li>
+          <li>Camera on for all video calls during contingency remote days.</li>
+          <li>Arrive on time — meetings start as scheduled. Late arrival without prior notice will be logged.</li>
+          <li>Follow through on action items assigned to you in meetings within the agreed timeframe.</li>
+        </ul>
+        <h3 class="sub-section">Meeting Types</h3>
+        <table class="doc-table">
+          <tr><th>Meeting</th><th>Frequency</th><th>Duration</th><th>What You Must Contribute</th></tr>
+          <tr><td>Daily Stand-Up</td><td>Every working day</td><td>Max 15 min</td><td>Yesterday's output, today's plan, any blockers. Be brief and specific.</td></tr>
+          <tr><td>Weekly Team Review</td><td>Every Monday</td><td>30–45 min</td><td>Present completed work, upcoming plan, flag risks, provide team perspective.</td></tr>
+          <tr><td>Creative Brainstorming</td><td>As needed</td><td>30–60 min</td><td>Bring references, ideas, suggestions. Active ideation is expected.</td></tr>
+          <tr><td>Client Presentations</td><td>Per project</td><td>Varies</td><td>Present your work professionally, explain decisions, answer client questions clearly.</td></tr>
+          <tr><td>Quarterly Review</td><td>Every 3 months</td><td>45–60 min</td><td>KPI review, honest self-assessment, goal-setting discussion for next quarter.</td></tr>
+        </table>
+        <h3 class="sub-section">Non-Participation Consequences</h3>
+        <ul class="doc-list">
+          <li><strong>1st instance</strong> (silent in meeting): Manager gives a private verbal reminder after the meeting. One-on-one discussion about expected contribution.</li>
+          <li><strong>2nd instance</strong> (silent again): Formal one-on-one with a written note added to your performance file. Reason asked directly: "Why are you not contributing?"</li>
+          <li><strong>3rd instance:</strong> Written warning issued. HR notified. May affect your quarterly performance rating.</li>
+          <li><strong>4th instance and beyond:</strong> Performance Improvement Plan (PIP) initiated. Affects quarterly rating, annual increment eligibility, and promotion consideration.</li>
+        </ul>
+        <p class="body-text">Passive attendance wastes collective team time and signals disengagement. The company has invested in your growth — showing up physically while disengaging mentally is a performance failure at every level.</p>
+      </div>
+
+      <div class="doc-section" id="sec-performance-reviews">
+        <div class="doc-section-title"><span class="sec-num">09c</span> Performance Reviews &amp; Compensation</div>
+        <h3 class="sub-section">Review Cycles</h3>
+        <table class="doc-table">
+          <tr><th>Review</th><th>Timing</th><th>Conducted By</th><th>Purpose</th></tr>
+          <tr><td>Probation Review</td><td>After 3 months</td><td>Direct Manager + CEO</td><td>Confirm permanent employment, extend probation, or end employment. Set role expectations clearly.</td></tr>
+          <tr><td>Quarterly Review</td><td>Every 3 months</td><td>Direct Manager</td><td>KPI check-in, performance feedback, goals for next quarter. One-on-one format, 30–45 minutes.</td></tr>
+          <tr><td>Annual Review</td><td>Year-end</td><td>Direct Manager + CEO</td><td>Full-year assessment, salary review, increment percentage, promotion consideration.</td></tr>
+        </table>
+        <h3 class="sub-section">Performance Rating Scale</h3>
+        <table class="doc-table">
+          <tr><th>Rating</th><th>Level</th><th>Criteria</th><th>Outcome</th></tr>
+          <tr><td style="font-weight:700;color:#27AE60;font-size:16px">5</td><td><strong>Exceptional</strong></td><td>Exceeds all KPIs significantly. Outstanding quality consistently. Mentors others. Proactive problem-solver. Client feedback: 5/5.</td><td>Promotion or significant increment + discretionary bonus consideration.</td></tr>
+          <tr><td style="font-weight:700;color:#2980B9;font-size:16px">4</td><td><strong>Exceeds Expectations</strong></td><td>Beats most KPIs regularly. High-quality work, minimal revisions needed. Reliable and proactive. Client feedback: 4.5+/5.</td><td>Performance bonus + good increment (10–15%).</td></tr>
+          <tr><td style="font-weight:700;color:#B8943A;font-size:16px">3</td><td><strong>Meets Expectations</strong></td><td>Achieves KPIs consistently. Good quality. Follows processes well. Client feedback: 4+/5.</td><td>Standard increment (5–8%).</td></tr>
+          <tr><td style="font-weight:700;color:#E67E22;font-size:16px">2</td><td><strong>Needs Improvement</strong></td><td>Below some KPIs. Quality inconsistent. Requires frequent supervision. Client feedback below 4/5.</td><td>90-day Performance Improvement Plan (PIP). No increment during PIP period.</td></tr>
+          <tr><td style="font-weight:700;color:#C0392B;font-size:16px">1</td><td><strong>Unsatisfactory</strong></td><td>Fails most KPIs. Repeated quality issues. Does not follow processes. Multiple client complaints.</td><td>PIP initiated immediately — or termination consideration. No increment.</td></tr>
+        </table>
+        <h3 class="sub-section">Performance Improvement Plan (PIP)</h3>
+        <p class="body-text">A PIP is initiated when a rating of 1 or 2 is received, or when disciplinary escalation reaches the third written warning. Duration: 90 days (3 months). A PIP is a structured support mechanism — not a punishment. The company commits resources and management time to help you succeed during this period.</p>
+        <ul class="doc-list">
+          <li>Clear, specific, measurable improvement goals are defined at the outset.</li>
+          <li>Weekly check-ins with your manager are mandatory throughout the PIP period.</li>
+          <li>Training, mentoring, or additional support will be provided as needed.</li>
+          <li><strong>Possible outcomes:</strong> Goals met — PIP closed, rating restored; Partial improvement — PIP extended by 30–60 days; No improvement — employment termination.</li>
+        </ul>
+        <h3 class="sub-section">Salary &amp; Compensation Details</h3>
+        <ul class="doc-list">
+          <li><strong>Salary payment date:</strong> 5th to 12th of every calendar month via bank transfer. If the date falls on a public or bank holiday, payment is processed on the next working day.</li>
+          <li><strong>Salary structure:</strong> CTC = Basic + HRA + Special Allowance + applicable bonuses. Full details are in your individual employment contract.</li>
+          <li><strong>Annual increment:</strong> 5–15% based on performance rating. Reviewed annually, effective from the review month.</li>
+          <li><strong>Training budget:</strong> ₹5,000 per employee per year, subject to manager approval. Can be used for online courses, professional certifications, industry workshops, or learning resources directly relevant to your role.</li>
+          <li><strong>Performance bonus:</strong> Discretionary, based on individual performance and company revenue performance. Typically reviewed quarterly or annually.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="sec-referral">
+        <div class="doc-section-title"><span class="sec-num">09d</span> Employee Referral Programme</div>
+        <h3 class="sub-section">Client Referral — All Employees</h3>
+        <p class="body-text">If you refer a contact who becomes a paying FlumenX / Misc Archive client, you earn a commission on the first payment received from that client.</p>
+        <table class="doc-table">
+          <tr><th>Deal Value (First Payment)</th><th>Your Commission</th></tr>
+          <tr><td>Up to ₹50,000</td><td>2% of deal value</td></tr>
+          <tr><td>₹50,001 – ₹1,50,000</td><td>3% of deal value</td></tr>
+          <tr><td>Above ₹1,50,000</td><td>4–5% (CEO discretion)</td></tr>
+        </table>
+        <p class="body-text"><strong>Process:</strong> Inform your manager about the potential client <em>before</em> making any contact. Introduction will be facilitated by the BDE or CEO. Commission is confirmed by HR and paid quarterly — only after the client payment is received and cleared. Commission is forfeited if the referral is reversed or the client never pays.</p>
+        <h3 class="sub-section">Employee Referral — Open Positions</h3>
+        <p class="body-text">Refer a candidate who gets hired and successfully completes their 3-month probation period — and you receive:</p>
+        <ul class="doc-list">
+          <li>Certificate of Recognition signed by the CEO.</li>
+          <li>One bonus casual leave day added to your leave balance.</li>
+          <li>Public acknowledgement at the monthly team meeting.</li>
+          <li>Team lunch / celebration sponsored by the company.</li>
+        </ul>
+        <p class="body-text"><strong>To submit:</strong> Send the candidate's resume and a brief personal recommendation to hr@flumenx.com. Confirm with your candidate that they are willing to be referred before submitting. Only refer candidates you genuinely believe are suitable for the role.</p>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">09</span> Role Responsibilities</div>
+        <h3 class="sub-section">Video Editor</h3>
+        <ul class="doc-list">
+          <li>Edit short-form (Reels, YouTube Shorts, ads) and long-form (brand films, explainers, documentaries) video content.</li>
+          <li>Minimum output: <strong>4–5 edited videos per day</strong> for short-form content; 1 video per hour is the benchmark for simple edits.</li>
+          <li>For complex/long-form edits: timeline and output expectations are agreed per project.</li>
+          <li>Apply motion graphics, colour grading, audio mixing, and subtitles as required per brief.</li>
+          <li>Maintain organised project media bins and export correct format/resolution per platform specification.</li>
+          <li>Archive raw and final video assets in the approved folder structure.</li>
+        </ul>
+        <h3 class="sub-section">Videographer</h3>
+        <ul class="doc-list">
+          <li>Plan and execute on-location video shoots — pre-production (equipment check, location scout), production (shoot), and post-handover (organised raw footage delivery).</li>
+          <li>Operate camera, lighting, and audio equipment professionally.</li>
+          <li>Deliver raw footage within 24 hours of shoot, organised and labelled.</li>
+          <li>Communicate equipment needs at least 48 hours before a shoot.</li>
+          <li>For combined editor/videographer role: balance shoot days and editing days per weekly schedule.</li>
+        </ul>
+        <h3 class="sub-section">Cross-Role</h3>
+        <ul class="doc-list">
+          <li>Coordinate with the Digital Marketing team on format requirements for each platform.</li>
+          <li>Maintain a personal motion graphics and sound effects library.</li>
+          <li>Attend client feedback calls for major video projects when required.</li>
+        </ul>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">10</span> KPIs & Output Standards</div>
+        <div class="kpi-row header">
+          <div class="kpi-cell">KPI</div><div class="kpi-cell">Target</div><div class="kpi-cell">Warning Level</div><div class="kpi-cell">Notes</div>
+        </div>
+        <div class="kpi-row"><div class="kpi-cell">Short-form edits per day</div><div class="kpi-cell">4–5 videos</div><div class="kpi-cell"><3 for 3+ days</div><div class="kpi-cell">Reels, Shorts, Ads</div></div>
+        <div class="kpi-row"><div class="kpi-cell">On-time delivery rate</div><div class="kpi-cell">>92%</div><div class="kpi-cell"><85%</div><div class="kpi-cell">Per agreed deadline</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Client approval rate (first cut)</div><div class="kpi-cell">>80%</div><div class="kpi-cell"><70%</div><div class="kpi-cell">Track per client</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Avg revision rounds</div><div class="kpi-cell"><2.5</div><div class="kpi-cell">>3.5 avg</div><div class="kpi-cell">Log per project</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Raw footage delivery (post-shoot)</div><div class="kpi-cell">Within 24h</div><div class="kpi-cell">>48h</div><div class="kpi-cell">Organised & labelled</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Equipment damage incidents</div><div class="kpi-cell">0</div><div class="kpi-cell">Any incident</div><div class="kpi-cell">Must be reported immediately</div></div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">11</span> Production Workflow & Standards</div>
+        <ul class="doc-list">
+          <li><strong>Brief Intake:</strong> Receive brief via task tool. Confirm: duration, platform, tone, music preference, any do-not-use elements.</li>
+          <li><strong>First Cut:</strong> Deliver rough cut within deadline. Flag creative questions before starting, not after.</li>
+          <li><strong>Review Loop:</strong> Max 2.5 revision rounds on average. More than 3 rounds on a single project requires manager review of the brief-to-execution gap.</li>
+          <li><strong>Final Export:</strong> Platform-specific specs. Social: H.264/MP4, correct aspect ratios (9:16, 1:1, 16:9). Cinema/brand film: ProRes if required.</li>
+          <li><strong>Filing:</strong> All final exports + project files archived in client folder within 24 hours of approval.</li>
+        </ul>
+        <div class="callout callout-warning">
+          <p><strong>Equipment Policy:</strong> All FlumenX equipment must be handled with professional care. Any damage must be reported immediately to your manager — do not attempt to conceal damage. Negligent damage will be investigated and may result in financial liability depending on circumstances.</p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div><!-- /hub-content -->
+</div><!-- /hub -->
+
+
+<!-- ═══════════════════════════════════════════ DOC VIEW ═══ -->
+<div id="doc-view">
+  <div class="doc-topbar">
+    <button class="back-btn" onclick="closeDoc()">← Back to Hub</button>
+    <div class="doc-topbar-info">
+      <div class="doc-topbar-title" id="docTopTitle"></div>
+      <div class="doc-topbar-sub">FlumenX & Misc Archive · Gautham Villa T, Kanjirampara, Trivandrum</div>
+    </div>
+    <div class="doc-type-badge" id="docTypeBadge"></div>
+    <button class="print-btn" onclick="window.print()">⎙ Print / PDF</button>
+  </div>
+  <div class="doc-wrapper" id="docContent"></div>
+</div>
+
+
+<script>
+// ────────────────────────────────────────────
+// COMMON COMPANY INFO
+// ────────────────────────────────────────────
+const CO = {
+  name: "FlumenX / Misc Archive",
+  address: "Gautham Villa T, C7/82, Kairali Nagar, Kanjirampara, Thiruvananthapuram, Kerala 695030",
+  phone: "+91 8907 634900",
+  ceo: "Anoop Krishna V A",
+  ceoEmail: "anoopkrishna@flumenx.com",
+  opsEmail: "marketing@miscarchive.com",
+  hrEmail: "hr@flumenx.com",
+  web1: "www.flumenx.com",
+  web2: "www.miscarchive.com",
+  officeHours: "9:30 AM – 6:30 PM, Monday to Saturday",
+  leavePolicy: "2 leaves/month (1 Sick + 1 Casual) — eligible after 6 months",
+  latePolicy: "Max 3 times/month within 10-min grace; thereafter half-day salary deduction per occurrence",
+  noticePeriod: "30 days (staff) / 60 days (senior/leadership)",
+  reviewCycle: "Monthly 1:1 reviews + Quarterly formal reviews",
+  salary: "Paid 5th–12th of each month",
+  increment: "5–15% based on performance (reviewed quarterly; effective when revenue > ₹8L/month)"
+};
+
+// ────────────────────────────────────────────
+// SHARED POLICY BLOCK (appears in all handbooks)
+// ────────────────────────────────────────────
+function sharedPolicies() {
+  return `
+
+
+    // <div class="doc-section" id="sec-values">
+    //   <div class="doc-section-title"><span class="sec-num">02</span> Core Values</div>
+    //   <ul class="doc-list">
+    //     <li><strong>Craft Over Commodity:</strong> We produce work that is thoughtful, beautiful, and purposeful — never generic.</li>
+    //     <li><strong>Ownership Mindset:</strong> Every team member is expected to own their work end-to-end, not just execute tasks.</li>
+    //     <li><strong>Transparency:</strong> Internal and client communication must be honest, timely, and clear.</li>
+    //     <li><strong>Continuous Growth:</strong> We invest in learning. Stagnation is not acceptable.</li>
+    //     <li><strong>Accountability Without Blame:</strong> When things go wrong, we fix them and learn — we do not cover up.</li>
+    //     <li><strong>Client-Centricity:</strong> Client success is our success. Every decision must pass the question: "Does this serve the client well?"</li>
+    //   </ul>
+    // </div>
+
+    // <div class="doc-section" id="sec-attendance">
+    //   <div class="doc-section-title"><span class="sec-num">03</span> Attendance & Working Hours</div>
+    //   <h3 class="sub-section">Office Hours</h3>
+    //   <p class="body-text">Standard working hours are <strong>9:30 AM to 6:30 PM, Monday to Saturday</strong>. Core mandatory hours are 10:00 AM to 5:00 PM. Lunch break is 1:00 PM to 2:00 PM.</p>
+    //   <h3 class="sub-section">Late-Coming Policy</h3>
+    //   <p class="body-text">A grace period of 10 minutes is allowed. Late arrival is permitted a maximum of <strong>3 times per calendar month</strong>. From the 4th late instance onward, a <strong>half-day salary deduction</strong> will apply per occurrence. Habitual late-coming (more than 5 times in a month) will be addressed through the performance warning system.</p>
+    //   <h3 class="sub-section">Contingency — Remote Work</h3>
+    //   <p class="body-text">FlumenX does not have a general Work From Home policy. All employees are expected to be present at the office during working hours. Remote work is permitted <strong>only</strong> in the following specific contingency situations, and requires explicit manager approval each time:</p>
+    //   <ul class="doc-list">
+    //     <li><strong>Power Failure:</strong> If office power is unavailable for more than 2 continuous hours and work cannot continue on battery, the manager may authorise working remotely for the remainder of that day only.</li>
+    //     <li><strong>Hartal / Bandh:</strong> If a state or national strike prevents safe travel to office, employees may work from home that day. The CEO or Operations Manager will communicate this decision by 8:30 AM via the official WhatsApp group.</li>
+    //     <li><strong>Natural Calamity:</strong> Floods, cyclones, or red-alert weather events. Safety takes priority — employees should inform their manager and work remotely if conditions are dangerous. No leave will be deducted in genuine calamity situations.</li>
+    //   </ul>
+    //   <p class="body-text">In all contingency cases: you must be reachable during office hours, attend all scheduled calls, and deliver daily targets as normal. Contingency remote work days do not accumulate or transfer to other days.</p>
+    //   <h3 class="sub-section">Daily Stand-Up</h3>
+    //   <p class="body-text">Mandatory team stand-up meeting every Monday at 10:00 AM. All team members must attend and actively participate. Silent attendance is noted and will be flagged after the second consecutive occurrence.</p>
+    // </div>
+
+    // <div class="doc-section" id="sec-leave">
+    //   <div class="doc-section-title"><span class="sec-num">04</span> Leave Policy</div>
+    //   <table class="doc-table">
+    //     <tr><th>Leave Type</th><th>Entitlement</th><th>Eligibility</th><th>Notes</th></tr>
+    //     <tr><td>Sick Leave</td><td>1/month (12/year)</td><td>After 6 months</td><td>Medical certificate required for 2+ consecutive days</td></tr>
+    //     <tr><td>Casual/Paid Leave</td><td>1/month (12/year)</td><td>After 6 months</td><td>Must be pre-approved 7 days in advance</td></tr>
+    //     <tr><td>Emergency Leave</td><td>As needed</td><td>Immediate</td><td>Inform within 2 hours of absence. Documentation required.</td></tr>
+    //     <tr><td>Public Holidays</td><td>As per Kerala Govt list</td><td>All staff</td><td>Announced at start of year</td></tr>
+    //   </table>
+    //   <div class="callout callout-warning">
+    //     <p><strong>New Joiners:</strong> Leave entitlement begins only after completing 6 months of employment. Leaves taken before this period will be treated as Loss of Pay (LOP) unless approved as an exceptional case by the CEO.</p>
+    //   </div>
+    //   <h3 class="sub-section">Leave Application Process</h3>
+    //   <p class="body-text">For planned leave: Email to <strong>hr@flumenx.com</strong> with CC to your direct manager and <strong>marketing@miscarchive.com</strong> at least 7 days in advance. Subject line: <code>Leave Request — [Your Name] — [Dates]</code>. Include leave type, reason, and handover plan. Wait for written approval before taking leave.</p>
+    //   <p class="body-text">For emergency leave: Call or WhatsApp your direct manager and send email to HR by 9:00 AM. Do not simply not show up without informing anyone — this will be treated as Absent Without Leave (AWOL) and is subject to disciplinary action.</p>
+    // </div>
+
+    // <div class="doc-section" id="sec-conduct">
+    //   <div class="doc-section-title"><span class="sec-num">05</span> Code of Conduct & Professionalism</div>
+    //   <h3 class="sub-section">Communication Standards</h3>
+    //   <ul class="doc-list">
+    //     <li>All client-facing communication (emails, calls, meetings) must be professional, grammatically correct, and timely (respond within 4 hours during business hours).</li>
+    //     <li>Internal WhatsApp groups are for work communication — memes, political content, and personal arguments are not permitted.</li>
+    //     <li>Escalations and complaints must go through proper channels — do not discuss client or company issues on personal social media.</li>
+    //   </ul>
+    //   <h3 class="sub-section">Dress Code</h3>
+    //   <p class="body-text">Business casual at the office. On client visit days, business formal or smart formal is expected. Maintain hygiene and presentability at all times.</p>
+    //   <h3 class="sub-section">Confidentiality & NDA</h3>
+    //   <p class="body-text">All employees are bound by the Non-Disclosure Agreement signed at joining. This covers: client names, project details, pricing, internal processes, strategies, source code, and any proprietary frameworks (including SAG·EO). Breach of confidentiality will result in immediate termination and potential legal action.</p>
+    //   <h3 class="sub-section">Device & Software Policy</h3>
+    //   <p class="body-text">Company devices, accounts, and software licenses must not be used for personal projects. All client assets, credentials, and deliverables created during employment belong to Misc Archive / FlumenX. Files must be stored in designated shared drives and not on personal devices unless expressly approved.</p>
+    // </div>
+
+    // <div class="doc-section" id="sec-performance">
+    //   <div class="doc-section-title"><span class="sec-num">06</span> Performance & Compensation</div>
+    //   <h3 class="sub-section">Review Cycle</h3>
+    //   <p class="body-text">Monthly 1-on-1 reviews are conducted with the direct manager or CEO. Quarterly formal reviews assess overall performance against KPIs, with raise recommendations submitted to the CEO.</p>
+    //   <h3 class="sub-section">Salary & Increments</h3>
+    //   <p class="body-text">Salary is paid between the <strong>5th–12th of each calendar month</strong> via bank transfer. If the payment date falls on a Sunday or declared holiday, salary will be credited on the next working day. Any delay beyond the 12th will be communicated by the CEO or CFO in advance. Annual increments range from 5–15% based on performance ratings. Increments are effective when the company's monthly revenue exceeds ₹8L. Quarterly bonuses are discretionary based on individual and company performance.</p>
+    //   <h3 class="sub-section">Learning Budget</h3>
+    //   <p class="body-text">₹5,000 per employee per year for courses, certifications, and skill development (approved by manager in advance). Employee referral bonus: ₹10,000 for a successful hire who completes 6+ months.</p>
+    // </div>
+
+    // <div class="doc-section" id="sec-discipline">
+    //   <div class="doc-section-title"><span class="sec-num">07</span> Disciplinary Framework</div>
+    //   <div class="callout callout-info">
+    //     <p><strong>How warnings work:</strong> This section explains what happens when you violate policies. The intent is not punitive — it is to create a clear, fair, and documented process. All warnings are placed on record and affect performance ratings and increment eligibility.</p>
+    //   </div>
+    //   <h3 class="sub-section">Progressive Discipline Tiers</h3>
+    //   <div class="escalation-tier">
+    //     <div class="tier-badge tier-1">1</div>
+    //     <div class="tier-content">
+    //       <div class="tier-label">Verbal Warning</div>
+    //       <div class="tier-text">Issued for minor, first-time violations (minor lateness, small quality issues, missing a stand-up once). Documented internally by the manager. No formal record added to your HR file at this stage.</div>
+    //     </div>
+    //   </div>
+    //   <div class="escalation-tier">
+    //     <div class="tier-badge tier-2">2</div>
+    //     <div class="tier-content">
+    //       <div class="tier-label">Written Warning (Level 1)</div>
+    //       <div class="tier-text">Issued for repeated minor violations or a first-time moderate violation. Formal email from HR. Added to your HR file. Affects quarterly bonus eligibility. You must sign acknowledgement.</div>
+    //     </div>
+    //   </div>
+    //   <div class="escalation-tier">
+    //     <div class="tier-badge tier-3">3</div>
+    //     <div class="tier-content">
+    //       <div class="tier-label">Written Warning (Level 2) + Performance Improvement Plan (PIP)</div>
+    //       <div class="tier-text">Issued for a third violation or escalation of moderate violations. Formal PIP is initiated — a 30-day structured improvement program. No increment or bonus during PIP. Continued failure leads to Tier 4.</div>
+    //     </div>
+    //   </div>
+    //   <div class="escalation-tier">
+    //     <div class="tier-badge tier-4">4</div>
+    //     <div class="tier-content">
+    //       <div class="tier-label">Termination or Suspension</div>
+    //       <div class="tier-text">Issued when PIP fails, or immediately for serious offenses (data breach, client harassment, financial misconduct, gross insubordination, AWOL for 3+ days). Termination without notice period for gross misconduct. Final settlement cleared within 15 days.</div>
+    //     </div>
+    //   </div>
+    //   <div class="callout callout-warning">
+    //     <p><strong>Zero Tolerance Offenses (immediate termination):</strong> Sexual harassment, discrimination, intentional data leak/NDA breach, theft, fraud, and physical violence. No progressive discipline applies for these.</p>
+    //   </div>
+    //   <h3 class="sub-section">Appeal Process</h3>
+    //   <p class="body-text">Any employee may appeal a disciplinary decision to the CEO in writing within 7 days of receiving a warning. The CEO's decision after a fair hearing is final. Employees are encouraged to raise genuine concerns — this process is not meant to suppress feedback.</p>
+    // </div>
+
+    // <div class="doc-section" id="sec-exit">
+    //   <div class="doc-section-title"><span class="sec-num">08</span> Resignation & Exit</div>
+    //   <ul class="doc-list">
+    //     <li><strong>Notice Period:</strong> 30 days (staff); 60 days (senior/leadership roles). Written resignation must be submitted via email to HR and the CEO.</li>
+    //     <li><strong>Handover:</strong> All pending tasks, files, credentials, and client documentation must be transferred before the last working day.</li>
+    //     <li><strong>Exit Interview:</strong> Conducted by HR. Honest feedback is encouraged and will not affect your reference letter or relieving documents.</li>
+    //     <li><strong>Final Settlement:</strong> Salary, earned leave encashment, and all dues cleared within 15 working days. Relieving letter and experience certificate will be issued.</li>
+    //     <li><strong>Company Property:</strong> All devices, access credentials, files, and assets must be returned on or before the last working day.</li>
+    //   </ul>
+    // </div>
+
+    // <div class="doc-section" id="sec-datasecurity">
+    //     <div class="doc-section-title"><span class="sec-num">09a</span> Data Security &amp; Confidentiality</div>
+    //     <h3 class="sub-section">Client Data Protection</h3>
+    //     <ul class="doc-list">
+    //       <li>Store all client credentials exclusively in the company password manager — never in email, WhatsApp, personal notes, or plain text files.</li>
+    //       <li>Use VPN when accessing client accounts remotely or from personal devices.</li>
+    //       <li>Log out of all client accounts immediately after use. Never leave sessions open.</li>
+    //       <li>Never share client passwords, brand assets, documents, or confidential materials with any party outside the team.</li>
+    //       <li>Screenshotting confidential client documents or financial records is strictly prohibited.</li>
+    //       <li>Never access client accounts from personal devices unless explicitly authorised by your manager and the CEO.</li>
+    //     </ul>
+    //     <h3 class="sub-section">Company Data Protection</h3>
+    //     <ul class="doc-list">
+    //       <li><strong>Financial data:</strong> Accessible only by the Accounts Manager, CFO, and CEO. Never discuss client pricing, margins, or salary information with colleagues or external parties.</li>
+    //       <li><strong>Strategic plans and client pipeline:</strong> Strictly confidential — not for external discussion under any circumstances.</li>
+    //       <li><strong>Design assets and proprietary templates:</strong> Company-owned resources. May not be shared with external parties or removed from company systems upon resignation.</li>
+    //       <li><strong>Client list:</strong> A company asset. Using client details for personal prospecting or disclosing to a third party is a terminable offence under your employment agreement.</li>
+    //     </ul>
+    //     <h3 class="sub-section">Personal Device Policy</h3>
+    //     <p class="body-text">If you use a personal device for work tasks, antivirus software is mandatory. All company files on personal devices must be encrypted or stored only in the company cloud system. Upon resignation or termination, delete all company data — files, emails, app credentials, and any copies — from personal devices. Failure to do so may constitute a breach of your confidentiality agreement and may be pursued legally.</p>
+    //     <h3 class="sub-section">Consequences of NDA / Confidentiality Violations</h3>
+    //     <table class="doc-table">
+    //       <tr><th>Situation</th><th>Action</th></tr>
+    //       <tr><td>Suspected data breach or accidental disclosure</td><td>Report to CEO and HR immediately. Temporary system access suspension pending investigation. IT audit initiated.</td></tr>
+    //       <tr><td>Proven intentional data leak (client info, contracts, credentials)</td><td>Immediate termination. Legal action under NDA/employment agreement. Financial penalties per contract. Police complaint if warranted.</td></tr>
+    //       <tr><td>Proven negligence leading to data exposure (failure to follow protocol)</td><td>Termination consideration. Formal Written Warning minimum. Financial liability for any measurable damages. Mandatory client notification by CEO.</td></tr>
+    //     </table>
+    //     <div class="callout callout-warning">
+    //       <p><strong>No second chances for serious data breaches.</strong> The company's credibility and client trust are non-negotiable assets. This policy applies equally to all employees regardless of tenure, seniority, or personal relationships within the team.</p>
+    //     </div>
+    //   </div>
+
+    //   <div class="doc-section" id="sec-meetings">
+    //     <div class="doc-section-title"><span class="sec-num">09b</span> Team Meeting Participation</div>
+    //     <div class="callout callout-warning">
+    //       <p><strong>Active participation in all team meetings is mandatory.</strong> Silent attendance is treated as non-participation and is tracked in your performance record.</p>
+    //     </div>
+    //     <h3 class="sub-section">What Is Expected</h3>
+    //     <ul class="doc-list">
+    //       <li>Share your updates, blockers, and ideas clearly in every stand-up and review meeting.</li>
+    //       <li>When asked for input — respond. Silence is treated as disengagement, not neutrality.</li>
+    //       <li>Come prepared: review your task list and project status before attending any meeting.</li>
+    //       <li>Camera on for all video calls during contingency remote days.</li>
+    //       <li>Arrive on time — meetings start as scheduled. Late arrival without prior notice will be logged.</li>
+    //       <li>Follow through on action items assigned to you in meetings within the agreed timeframe.</li>
+    //     </ul>
+    //     <h3 class="sub-section">Meeting Types</h3>
+    //     <table class="doc-table">
+    //       <tr><th>Meeting</th><th>Frequency</th><th>Duration</th><th>What You Must Contribute</th></tr>
+    //       <tr><td>Daily Stand-Up</td><td>Every working day</td><td>Max 15 min</td><td>Yesterday's output, today's plan, any blockers. Be brief and specific.</td></tr>
+    //       <tr><td>Weekly Team Review</td><td>Every Monday</td><td>30–45 min</td><td>Present completed work, upcoming plan, flag risks, provide team perspective.</td></tr>
+    //       <tr><td>Creative Brainstorming</td><td>As needed</td><td>30–60 min</td><td>Bring references, ideas, suggestions. Active ideation is expected.</td></tr>
+    //       <tr><td>Client Presentations</td><td>Per project</td><td>Varies</td><td>Present your work professionally, explain decisions, answer client questions clearly.</td></tr>
+    //       <tr><td>Quarterly Review</td><td>Every 3 months</td><td>45–60 min</td><td>KPI review, honest self-assessment, goal-setting discussion for next quarter.</td></tr>
+    //     </table>
+    //     <h3 class="sub-section">Non-Participation Consequences</h3>
+    //     <ul class="doc-list">
+    //       <li><strong>1st instance</strong> (silent in meeting): Manager gives a private verbal reminder after the meeting. One-on-one discussion about expected contribution.</li>
+    //       <li><strong>2nd instance</strong> (silent again): Formal one-on-one with a written note added to your performance file. Reason asked directly: "Why are you not contributing?"</li>
+    //       <li><strong>3rd instance:</strong> Written warning issued. HR notified. May affect your quarterly performance rating.</li>
+    //       <li><strong>4th instance and beyond:</strong> Performance Improvement Plan (PIP) initiated. Affects quarterly rating, annual increment eligibility, and promotion consideration.</li>
+    //     </ul>
+    //     <p class="body-text">Passive attendance wastes collective team time and signals disengagement. The company has invested in your growth — showing up physically while disengaging mentally is a performance failure at every level.</p>
+    //   </div>
+
+    //   <div class="doc-section" id="sec-performance-reviews">
+    //     <div class="doc-section-title"><span class="sec-num">09c</span> Performance Reviews &amp; Compensation</div>
+    //     <h3 class="sub-section">Review Cycles</h3>
+    //     <table class="doc-table">
+    //       <tr><th>Review</th><th>Timing</th><th>Conducted By</th><th>Purpose</th></tr>
+    //       <tr><td>Probation Review</td><td>After 3 months</td><td>Direct Manager + CEO</td><td>Confirm permanent employment, extend probation, or end employment. Set role expectations clearly.</td></tr>
+    //       <tr><td>Quarterly Review</td><td>Every 3 months</td><td>Direct Manager</td><td>KPI check-in, performance feedback, goals for next quarter. One-on-one format, 30–45 minutes.</td></tr>
+    //       <tr><td>Annual Review</td><td>Year-end</td><td>Direct Manager + CEO</td><td>Full-year assessment, salary review, increment percentage, promotion consideration.</td></tr>
+    //     </table>
+    //     <h3 class="sub-section">Performance Rating Scale</h3>
+    //     <table class="doc-table">
+    //       <tr><th>Rating</th><th>Level</th><th>Criteria</th><th>Outcome</th></tr>
+    //       <tr><td style="font-weight:700;color:#27AE60;font-size:16px">5</td><td><strong>Exceptional</strong></td><td>Exceeds all KPIs significantly. Outstanding quality consistently. Mentors others. Proactive problem-solver. Client feedback: 5/5.</td><td>Promotion or significant increment + discretionary bonus consideration.</td></tr>
+    //       <tr><td style="font-weight:700;color:#2980B9;font-size:16px">4</td><td><strong>Exceeds Expectations</strong></td><td>Beats most KPIs regularly. High-quality work, minimal revisions needed. Reliable and proactive. Client feedback: 4.5+/5.</td><td>Performance bonus + good increment (10–15%).</td></tr>
+    //       <tr><td style="font-weight:700;color:#B8943A;font-size:16px">3</td><td><strong>Meets Expectations</strong></td><td>Achieves KPIs consistently. Good quality. Follows processes well. Client feedback: 4+/5.</td><td>Standard increment (5–8%).</td></tr>
+    //       <tr><td style="font-weight:700;color:#E67E22;font-size:16px">2</td><td><strong>Needs Improvement</strong></td><td>Below some KPIs. Quality inconsistent. Requires frequent supervision. Client feedback below 4/5.</td><td>90-day Performance Improvement Plan (PIP). No increment during PIP period.</td></tr>
+    //       <tr><td style="font-weight:700;color:#C0392B;font-size:16px">1</td><td><strong>Unsatisfactory</strong></td><td>Fails most KPIs. Repeated quality issues. Does not follow processes. Multiple client complaints.</td><td>PIP initiated immediately — or termination consideration. No increment.</td></tr>
+    //     </table>
+    //     <h3 class="sub-section">Performance Improvement Plan (PIP)</h3>
+    //     <p class="body-text">A PIP is initiated when a rating of 1 or 2 is received, or when disciplinary escalation reaches the third written warning. Duration: 90 days (3 months). A PIP is a structured support mechanism — not a punishment. The company commits resources and management time to help you succeed during this period.</p>
+    //     <ul class="doc-list">
+    //       <li>Clear, specific, measurable improvement goals are defined at the outset.</li>
+    //       <li>Weekly check-ins with your manager are mandatory throughout the PIP period.</li>
+    //       <li>Training, mentoring, or additional support will be provided as needed.</li>
+    //       <li><strong>Possible outcomes:</strong> Goals met — PIP closed, rating restored; Partial improvement — PIP extended by 30–60 days; No improvement — employment termination.</li>
+    //     </ul>
+    //     <h3 class="sub-section">Salary &amp; Compensation Details</h3>
+    //     <ul class="doc-list">
+    //       <li><strong>Salary payment date:</strong> 5th to 12th of every calendar month via bank transfer. If the date falls on a public or bank holiday, payment is processed on the next working day.</li>
+    //       <li><strong>Salary structure:</strong> CTC = Basic + HRA + Special Allowance + applicable bonuses. Full details are in your individual employment contract.</li>
+    //       <li><strong>Annual increment:</strong> 5–15% based on performance rating. Reviewed annually, effective from the review month.</li>
+    //       <li><strong>Training budget:</strong> ₹5,000 per employee per year, subject to manager approval. Can be used for online courses, professional certifications, industry workshops, or learning resources directly relevant to your role.</li>
+    //       <li><strong>Performance bonus:</strong> Discretionary, based on individual performance and company revenue performance. Typically reviewed quarterly or annually.</li>
+    //     </ul>
+    //   </div>
+
+    //   <div class="doc-section" id="sec-referral">
+    //     <div class="doc-section-title"><span class="sec-num">09d</span> Employee Referral Programme</div>
+    //     <h3 class="sub-section">Client Referral — All Employees</h3>
+    //     <p class="body-text">If you refer a contact who becomes a paying FlumenX / Misc Archive client, you earn a commission on the first payment received from that client.</p>
+    //     <table class="doc-table">
+    //       <tr><th>Deal Value (First Payment)</th><th>Your Commission</th></tr>
+    //       <tr><td>Up to ₹50,000</td><td>2% of deal value</td></tr>
+    //       <tr><td>₹50,001 – ₹1,50,000</td><td>3% of deal value</td></tr>
+    //       <tr><td>Above ₹1,50,000</td><td>4–5% (CEO discretion)</td></tr>
+    //     </table>
+    //     <p class="body-text"><strong>Process:</strong> Inform your manager about the potential client <em>before</em> making any contact. Introduction will be facilitated by the BDE or CEO. Commission is confirmed by HR and paid quarterly — only after the client payment is received and cleared. Commission is forfeited if the referral is reversed or the client never pays.</p>
+    //     <h3 class="sub-section">Employee Referral — Open Positions</h3>
+    //     <p class="body-text">Refer a candidate who gets hired and successfully completes their 3-month probation period — and you receive:</p>
+    //     <ul class="doc-list">
+    //       <li>Certificate of Recognition signed by the CEO.</li>
+    //       <li>One bonus casual leave day added to your leave balance.</li>
+    //       <li>Public acknowledgement at the monthly team meeting.</li>
+    //       <li>Team lunch / celebration sponsored by the company.</li>
+    //     </ul>
+    //     <p class="body-text"><strong>To submit:</strong> Send the candidate's resume and a brief personal recommendation to hr@flumenx.com. Confirm with your candidate that they are willing to be referred before submitting. Only refer candidates you genuinely believe are suitable for the role.</p>
+    //   </div>
+
+    // </div>
+  `;
+}
+
+// ────────────────────────────────────────────
+// SHARED MANAGEMENT HEADER
+// ────────────────────────────────────────────
+function manualHeader(role) {
+  return `
+    <div class="callout callout-warning" style="margin-bottom:24px;">
+      <p><strong>CONFIDENTIAL — MANAGERS ONLY.</strong> This document contains enforcement procedures, escalation steps, and email templates. It must NOT be shared with the employee. Store securely. Access is restricted to the CEO, HR Manager, and direct managers of this role.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title"><span class="sec-num">M1</span> Management Responsibilities Overview</div>
+      <p class="body-text">As a manager of a <strong>${role}</strong>, you are responsible for: daily output monitoring, quality review, leave and attendance tracking, performance documentation, escalation decisions, and client communication oversight. This manual provides the exact steps you must follow at each escalation tier.</p>
+      <div class="callout callout-gold">
+        <p><strong>Golden Rule:</strong> Every action taken must be documented in writing — either via email or an internal note saved to the employee's HR file. Verbal instructions given without documentation have no standing in disputes or termination proceedings.</p>
+      </div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title"><span class="sec-num">M2</span> Daily Monitoring Checklist</div>
+      <ul class="doc-list">
+        <li>Check in by 10:00 AM — confirm attendance and task status for all direct reports.</li>
+        <li>Review deliverables submitted the previous day for quality and completeness.</li>
+        <li>Flag any missed deadlines in your manager log (private Google Doc or Notion page).</li>
+        <li>Log any behavioral concerns — do not rely on memory alone.</li>
+        <li>Check project task board (ClickUp/Notion/Trello) for stalled items.</li>
+        <li>Weekly Friday 4:00 PM: compile week summary email to CEO (${CO.ceoEmail}).</li>
+      </ul>
+    </div>
+  `;
+}
+
+// ────────────────────────────────────────────
+// SHARED ESCALATION PROCEDURE BLOCK
+// ────────────────────────────────────────────
+function escalationProcedure(role, examples) {
+  return `
+    <div class="doc-section">
+      <div class="doc-section-title"><span class="sec-num">M3</span> Step-by-Step Escalation Procedures</div>
+
+      <h3 class="sub-section">Tier 1 — Verbal Warning</h3>
+      <p class="body-text"><strong>When to use:</strong> ${examples.tier1}</p>
+      <p class="body-text"><strong>Steps:</strong></p>
+      <ul class="doc-list">
+        <li>Schedule a private conversation — never in front of the team.</li>
+        <li>State the issue clearly and factually. Do not guess at motives.</li>
+        <li>Listen to the employee's explanation.</li>
+        <li>State expected behaviour going forward and a timeline for correction.</li>
+        <li>After the conversation, log it in your manager notes: date, issue, employee response, agreed action. Email this note to yourself and CC ${CO.hrEmail} as a record. Subject: <code>[PRIVATE] Verbal Warning Log — [Name] — [Date]</code></li>
+      </ul>
+
+      <h3 class="sub-section">Tier 2 — Written Warning (Level 1)</h3>
+      <p class="body-text"><strong>When to use:</strong> ${examples.tier2}</p>
+      <p class="body-text"><strong>Steps:</strong></p>
+      <ul class="doc-list">
+        <li>Inform HR Manager (${CO.hrEmail}) first — do not issue the warning alone.</li>
+        <li>Draft the warning email using Template W1 below.</li>
+        <li>HR reviews and approves the draft within 24 hours.</li>
+        <li>Send the email to the employee with CC to HR and ${CO.ceoEmail}.</li>
+        <li>Request signed acknowledgement from employee (physical or email reply confirming receipt).</li>
+        <li>File in the employee's HR folder.</li>
+      </ul>
+
+      <h3 class="sub-section">Tier 3 — Written Warning (Level 2) + PIP</h3>
+      <p class="body-text"><strong>When to use:</strong> ${examples.tier3}</p>
+      <p class="body-text"><strong>Steps:</strong></p>
+      <ul class="doc-list">
+        <li>Escalate to CEO (${CO.ceoEmail}) and HR immediately.</li>
+        <li>CEO, HR, and direct manager jointly draft the PIP document.</li>
+        <li>PIP includes: specific issues, measurable targets, 30-day timeline, check-in dates (weekly), consequences of failure.</li>
+        <li>PIP meeting conducted in person with CEO, HR, and manager present.</li>
+        <li>PIP document signed by employee. Employee copy provided.</li>
+        <li>Weekly PIP check-ins documented. Any missed check-ins by employee also documented.</li>
+        <li>At end of 30 days: CEO makes pass/fail determination based on documented progress.</li>
+      </ul>
+
+      <h3 class="sub-section">Tier 4 — Termination</h3>
+      <p class="body-text"><strong>When to use:</strong> ${examples.tier4}</p>
+      <p class="body-text"><strong>Steps:</strong></p>
+      <ul class="doc-list">
+        <li>No termination can proceed without CEO approval. Contact CEO immediately.</li>
+        <li>For gross misconduct: suspend the employee with pay pending investigation (max 72 hours).</li>
+        <li>CEO conducts final review of all documentation.</li>
+        <li>HR prepares termination letter using Template T1 below.</li>
+        <li>In-person meeting with CEO, HR, and manager. Employee is informed of decision, reasons, and final settlement timeline.</li>
+        <li>Access to all company systems, emails, and drives revoked immediately upon termination.</li>
+        <li>Final settlement paid within 15 working days. Relieving letter issued.</li>
+        <li>For immediate termination (gross misconduct), no notice period applies.</li>
+      </ul>
+    </div>
+  `;
+}
+
+// ────────────────────────────────────────────
+// EMAIL TEMPLATES BLOCK
+// ────────────────────────────────────────────
+function emailTemplates(role) {
+  return `
+    <div class="doc-section">
+      <div class="doc-section-title"><span class="sec-num">M4</span> Official Email Templates</div>
+
+      <h3 class="sub-section">Template W1 — Written Warning (Level 1)</h3>
+      <div class="email-template">
+        <div class="email-header">📧 Written Warning — Level 1 Template</div>
+        <div class="email-meta">
+          <div class="email-meta-row"><strong>To:</strong> [Employee Email]</div>
+          <div class="email-meta-row"><strong>CC:</strong> hr@flumenx.com, anoopkrishna@flumenx.com</div>
+          <div class="email-meta-row"><strong>Subject:</strong> Written Warning — [Employee Name] — [Date]</div>
+        </div>
+        <div class="email-body">Dear [Employee Name],
+
+This letter serves as a formal Written Warning (Level 1) regarding [specific issue — describe clearly and factually].
+
+Incident Details:
+Date(s): [Date]
+Issue: [Describe what happened factually — no assumptions]
+Prior verbal warning given on: [Date]
+
+As a ${role} at FlumenX / Misc Archive, you are expected to [state the specific policy or standard that was violated].
+
+Going forward, we expect you to [state specific, measurable expected behaviour]. We will review your performance in this area over the next 30 days.
+
+This warning is now part of your official employment record. Please reply to this email confirming receipt and acknowledgement.
+
+If you wish to discuss this matter or appeal, you may write to the CEO at anoopkrishna@flumenx.com within 7 days of receiving this email.
+
+We value your contribution to the team and hope to resolve this together.
+
+Regards,
+[Manager Name]
+FlumenX / Misc Archive
+${CO.phone} | ${CO.opsEmail}</div>
+      </div>
+
+      <h3 class="sub-section">Template W2 — PIP Initiation</h3>
+      <div class="email-template">
+        <div class="email-header">📧 PIP Initiation Template</div>
+        <div class="email-meta">
+          <div class="email-meta-row"><strong>To:</strong> [Employee Email]</div>
+          <div class="email-meta-row"><strong>CC:</strong> hr@flumenx.com, anoopkrishna@flumenx.com</div>
+          <div class="email-meta-row"><strong>Subject:</strong> Performance Improvement Plan — [Employee Name] — [Start Date]</div>
+        </div>
+        <div class="email-body">Dear [Employee Name],
+
+Following our previous discussions and the Written Warning issued on [Date], we are formally initiating a Performance Improvement Plan (PIP) effective [Start Date].
+
+Areas of Concern:
+1. [Issue 1 — specific, factual]
+2. [Issue 2 — specific, factual]
+
+PIP Targets (30-Day Period: [Start] to [End]):
+1. [Specific measurable target 1]
+2. [Specific measurable target 2]
+3. [Specific measurable target 3]
+
+Check-In Schedule:
+- Week 1: [Date] with [Manager Name]
+- Week 2: [Date] with [Manager Name]
+- Week 3: [Date] with [Manager Name]
+- Final Review: [Date] with CEO + HR + Manager
+
+Consequences: Failure to meet PIP targets may result in further disciplinary action up to and including termination of employment.
+
+Support Available: [Manager Name] is available to support you during this period. Please proactively raise any blockers immediately.
+
+This PIP has been prepared collaboratively and is not a punishment — it is a structured opportunity to meet the standards we know you are capable of.
+
+Please sign and return the attached copy or reply confirming acknowledgement.
+
+Regards,
+Anoop Krishna V A
+CEO, FlumenX / Misc Archive</div>
+      </div>
+
+      <h3 class="sub-section">Template T1 — Termination Letter</h3>
+      <div class="email-template">
+        <div class="email-header">📧 Termination Letter Template</div>
+        <div class="email-meta">
+          <div class="email-meta-row"><strong>To:</strong> [Employee Email]</div>
+          <div class="email-meta-row"><strong>CC:</strong> hr@flumenx.com</div>
+          <div class="email-meta-row"><strong>Subject:</strong> Termination of Employment — [Employee Name]</div>
+        </div>
+        <div class="email-body">Dear [Employee Name],
+
+This letter formally notifies you of the termination of your employment with Misc Archive / FlumenX, effective [Date].
+
+Reason for Termination:
+[State reason clearly — reference prior warnings, PIP outcome, or specific gross misconduct incident with dates]
+
+Prior Actions Taken:
+- Verbal Warning: [Date]
+- Written Warning Level 1: [Date]
+- PIP Initiated: [Date] — [outcome]
+
+[For gross misconduct, replace above with:]
+- This termination is immediate due to [describe incident] which constitutes gross misconduct under our company policy.
+
+Final Settlement:
+Your outstanding salary, earned leave balance, and all other dues will be cleared within 15 working days of today.
+
+Return of Company Property:
+Please return all company devices, access cards, credentials, and materials to [HR Name] by [Date]. A full handover checklist is attached.
+
+Access to all company systems, email accounts, and platforms has been revoked effective immediately.
+
+Your relieving letter and experience certificate will be issued after completion of the handover process.
+
+Regards,
+Anoop Krishna V A
+CEO, FlumenX / Misc Archive
+${CO.phone}</div>
+      </div>
+
+      <h3 class="sub-section">Template A1 — Absence Without Leave (AWOL) Warning</h3>
+      <div class="email-template">
+        <div class="email-header">📧 AWOL Warning Template</div>
+        <div class="email-meta">
+          <div class="email-meta-row"><strong>To:</strong> [Employee Email]</div>
+          <div class="email-meta-row"><strong>CC:</strong> hr@flumenx.com, anoopkrishna@flumenx.com</div>
+          <div class="email-meta-row"><strong>Subject:</strong> Absence Without Leave — [Employee Name] — [Date(s)]</div>
+        </div>
+        <div class="email-body">Dear [Employee Name],
+
+We note that you were absent from work on [Date(s)] without prior approval or communication to your manager or HR.
+
+This is in violation of our Leave Policy which requires:
+- Planned leave: 7-day advance notice
+- Emergency leave: Notification by 9:00 AM via call/WhatsApp to manager + email to HR
+
+This absence has been marked as Loss of Pay (LOP).
+
+If you have a genuine emergency or medical reason for this absence, please provide supporting documentation to hr@flumenx.com within 48 hours of receiving this email. We will review and adjust accordingly.
+
+Continued unexplained absences may result in disciplinary action under our progressive warning framework.
+
+Please confirm receipt of this email.
+
+Regards,
+[Manager Name]
+FlumenX / Misc Archive</div>
+      </div>
+    </div>
+  `;
+}
+
+// ────────────────────────────────────────────
+// DOCUMENTATION REQUIREMENTS
+// ────────────────────────────────────────────
+function documentationRequirements() {
+  return `
+    <div class="doc-section">
+      <div class="doc-section-title"><span class="sec-num">M5</span> Documentation Requirements</div>
+      <h3 class="sub-section">What Must Be Documented</h3>
+      <table class="doc-table">
+        <tr><th>Event</th><th>Document Format</th><th>Timeline</th><th>Filed Where</th></tr>
+        <tr><td>Verbal Warning</td><td>Manager's internal note email to self + CC HR</td><td>Same day</td><td>Manager's log + HR email archive</td></tr>
+        <tr><td>Written Warning</td><td>Formal email (Template W1) + acknowledgement</td><td>Within 24h of decision</td><td>Employee HR folder</td></tr>
+        <tr><td>PIP</td><td>PIP document + weekly check-in notes + final assessment</td><td>Before PIP starts</td><td>Employee HR folder + shared with CEO</td></tr>
+        <tr><td>Termination</td><td>Termination letter (Template T1) + full evidence pack</td><td>Before meeting</td><td>Secure HR folder + CEO</td></tr>
+        <tr><td>AWOL</td><td>Email notification (Template A1) + attendance record</td><td>Day of absence</td><td>Employee HR folder</td></tr>
+        <tr><td>Quality Issue</td><td>Written feedback email with specific examples + client impact</td><td>Within 24h of issue</td><td>Project file + HR folder if repeated</td></tr>
+        <tr><td>Leave Record</td><td>Leave tracker updated + email confirmation</td><td>Same day</td><td>HR leave tracker (shared sheet)</td></tr>
+      </table>
+      <h3 class="sub-section">When to Escalate to CEO</h3>
+      <ul class="doc-list">
+        <li>Any Tier 3 or Tier 4 action — CEO must be involved before execution.</li>
+        <li>Client complaint directly about an employee's conduct.</li>
+        <li>Suspected data breach or NDA violation.</li>
+        <li>Any situation where a manager is personally involved (conflict of interest).</li>
+        <li>HR grievances filed against a manager.</li>
+        <li>Any media, legal, or PR-sensitive situation.</li>
+      </ul>
+      <h3 class="sub-section">Escalation Contacts</h3>
+      <table class="doc-table">
+        <tr><th>Person</th><th>Role</th><th>Contact</th><th>When to Escalate</th></tr>
+        <tr><td>Anoop Krishna V A</td><td>CEO & Founder</td><td>${CO.ceoEmail} / ${CO.phone}</td><td>Tier 3+, client issues, legal/PR, strategic</td></tr>
+        <tr><td>HR Manager</td><td>HR</td><td>${CO.hrEmail}</td><td>All warnings, PIP, exit, grievances</td></tr>
+        <tr><td>Ops Email</td><td>Operations</td><td>${CO.opsEmail}</td><td>Operational and workflow issues</td></tr>
+      </table>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════
+// CLIENT LOSS / PAUSE ESCALATION PROTOCOL
+// ════════════════════════════════════════════════════════════
+function clientLossProtocol() {
+  return `
+    <div class="doc-section" style="border-left: 4px solid #C0392B;">
+      <div class="doc-section-title"><span class="sec-num" style="background:#C0392B">M3</span> Client Loss / Pause Escalation Protocol</div>
+      <div class="callout callout-warning">
+        <p><strong>Critical Policy:</strong> Any situation where a client pauses, reduces scope, or exits FlumenX services — for any reason related to employee work, communication, or conduct — must be treated as a Critical Incident and escalated immediately to the CEO.</p>
+      </div>
+      <h3 class="sub-section">Trigger Conditions</h3>
+      <p class="body-text">This protocol is triggered when:</p>
+      <ul class="doc-list">
+        <li>A client communicates a wish to pause, stop, or reduce their retainer or project.</li>
+        <li>A client expresses serious dissatisfaction that may indicate exit risk.</li>
+        <li>A client complaint is received citing specific employee behaviour, quality failure, or missed deliverable.</li>
+        <li>A project goes significantly over deadline due to internal execution failure.</li>
+        <li>A client requests to speak to management or the CEO directly.</li>
+      </ul>
+      <h3 class="sub-section">Immediate Response (Within 2 Hours)</h3>
+      <table class="doc-table">
+        <tr><th>Step</th><th>Action</th><th>Owner</th></tr>
+        <tr><td>1</td><td>Manager who receives the client signal notifies CEO immediately via call or WhatsApp — do not wait for email</td><td>Receiving Manager</td></tr>
+        <tr><td>2</td><td>Do not make any promises or commitments to the client without CEO knowledge</td><td>All</td></tr>
+        <tr><td>3</td><td>Gather all relevant work, communication history, and timeline for the client relationship</td><td>Receiving Manager</td></tr>
+        <tr><td>4</td><td>CEO or designated senior team member contacts the client within 4 hours</td><td>CEO</td></tr>
+      </table>
+      <h3 class="sub-section">Root Cause Investigation</h3>
+      <ul class="doc-list">
+        <li>Manager conducts an internal review within 24 hours: identify what went wrong, which team member(s) were involved, and what the failure point was.</li>
+        <li>Document the full timeline — when the issue started, what was communicated (or not), and all related deliverables.</li>
+        <li>Present findings to CEO with a factual, honest account. Do not omit or minimise failures.</li>
+      </ul>
+      <h3 class="sub-section">Disciplinary Outcomes — Based on Root Cause</h3>
+      <table class="doc-table">
+        <tr><th>Root Cause Finding</th><th>Action</th></tr>
+        <tr><td>Client exit due to genuine business reason (budget cuts, rebranding, service no longer needed) — not employee fault</td><td>No disciplinary action. Document as market churn. Review account strategy.</td></tr>
+        <tr><td>Client dissatisfied due to quality failure (first incident, isolated)</td><td>Verbal Warning to responsible team member. Mandatory quality review session.</td></tr>
+        <tr><td>Client paused or exited due to repeated quality failures or missed deadlines after prior warnings</td><td>Written Warning (W1) to team member(s) + PIP initiation if pattern established.</td></tr>
+        <tr><td>Client exited due to employee communication failure, unprofessional conduct, or direct complaint about a staff member</td><td>Written Warning (W1) minimum. Tier 3 escalation if client relationship was damaged publicly or permanently.</td></tr>
+        <tr><td>Client revenue loss ≥ ₹20,000/month due to directly attributable employee negligence</td><td>Mandatory PIP + written documentation. Termination consideration if pattern persists or negligence was gross.</td></tr>
+        <tr><td>Multiple clients lost or paused within a 3-month period traced to same team member or department</td><td>Immediate CEO review. Structural departmental action may follow.</td></tr>
+      </table>
+      <div class="callout callout-info">
+        <p><strong>Important:</strong> This protocol applies to all roles. Any employee who is aware of a client exit risk and fails to escalate immediately will also be subject to disciplinary review. Early warning saves client relationships — reporting risk is always the right action.</p>
+      </div>
+      <h3 class="sub-section">Documentation Required</h3>
+      <ul class="doc-list">
+        <li>Client Exit / Pause Incident Report (written summary of root cause, timeline, team member(s) involved)</li>
+        <li>Copy of all relevant client communications during the period in question</li>
+        <li>List of deliverables, deadlines, and any missed commitments</li>
+        <li>Action taken and outcome — stored in CEO's confidential client records</li>
+      </ul>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════
+// ROLE-SPECIFIC HANDBOOKS & MANUALS
+// ════════════════════════════════════════════════════════════
+
+const docs = {
+
+  // ──────────── VIDEO EDITOR HANDBOOK ────────────
+  'video-editor-handbook': {
+    title: 'Video Editor / Videographer — Employee Handbook',
+    type: 'handbook',
+    content: () => `
+
+      ${sharedPolicies()}
+      // <div class="doc-section">
+      //   <div class="doc-section-title"><span class="sec-num">09</span> Role Responsibilities</div>
+      //   <h3 class="sub-section">Video Editor</h3>
+      //   <ul class="doc-list">
+      //     <li>Edit short-form (Reels, YouTube Shorts, ads) and long-form (brand films, explainers, documentaries) video content.</li>
+      //     <li>Minimum output: <strong>4–5 edited videos per day</strong> for short-form content; 1 video per hour is the benchmark for simple edits.</li>
+      //     <li>For complex/long-form edits: timeline and output expectations are agreed per project.</li>
+      //     <li>Apply motion graphics, colour grading, audio mixing, and subtitles as required per brief.</li>
+      //     <li>Maintain organised project media bins and export correct format/resolution per platform specification.</li>
+      //     <li>Archive raw and final video assets in the approved folder structure.</li>
+      //   </ul>
+      //   <h3 class="sub-section">Videographer</h3>
+      //   <ul class="doc-list">
+      //     <li>Plan and execute on-location video shoots — pre-production (equipment check, location scout), production (shoot), and post-handover (organised raw footage delivery).</li>
+      //     <li>Operate camera, lighting, and audio equipment professionally.</li>
+      //     <li>Deliver raw footage within 24 hours of shoot, organised and labelled.</li>
+      //     <li>Communicate equipment needs at least 48 hours before a shoot.</li>
+      //     <li>For combined editor/videographer role: balance shoot days and editing days per weekly schedule.</li>
+      //   </ul>
+      //   <h3 class="sub-section">Cross-Role</h3>
+      //   <ul class="doc-list">
+      //     <li>Coordinate with the Digital Marketing team on format requirements for each platform.</li>
+      //     <li>Maintain a personal motion graphics and sound effects library.</li>
+      //     <li>Attend client feedback calls for major video projects when required.</li>
+      //   </ul>
+      // </div>
+      // <div class="doc-section">
+      //   <div class="doc-section-title"><span class="sec-num">10</span> KPIs & Output Standards</div>
+      //   <div class="kpi-row header">
+      //     <div class="kpi-cell">KPI</div><div class="kpi-cell">Target</div><div class="kpi-cell">Warning Level</div><div class="kpi-cell">Notes</div>
+      //   </div>
+      //   <div class="kpi-row"><div class="kpi-cell">Short-form edits per day</div><div class="kpi-cell">4–5 videos</div><div class="kpi-cell"><3 for 3+ days</div><div class="kpi-cell">Reels, Shorts, Ads</div></div>
+      //   <div class="kpi-row"><div class="kpi-cell">On-time delivery rate</div><div class="kpi-cell">>92%</div><div class="kpi-cell"><85%</div><div class="kpi-cell">Per agreed deadline</div></div>
+      //   <div class="kpi-row"><div class="kpi-cell">Client approval rate (first cut)</div><div class="kpi-cell">>80%</div><div class="kpi-cell"><70%</div><div class="kpi-cell">Track per client</div></div>
+      //   <div class="kpi-row"><div class="kpi-cell">Avg revision rounds</div><div class="kpi-cell"><2.5</div><div class="kpi-cell">>3.5 avg</div><div class="kpi-cell">Log per project</div></div>
+      //   <div class="kpi-row"><div class="kpi-cell">Raw footage delivery (post-shoot)</div><div class="kpi-cell">Within 24h</div><div class="kpi-cell">>48h</div><div class="kpi-cell">Organised & labelled</div></div>
+      //   <div class="kpi-row"><div class="kpi-cell">Equipment damage incidents</div><div class="kpi-cell">0</div><div class="kpi-cell">Any incident</div><div class="kpi-cell">Must be reported immediately</div></div>
+      // </div>
+      // <div class="doc-section">
+      //   <div class="doc-section-title"><span class="sec-num">11</span> Production Workflow & Standards</div>
+      //   <ul class="doc-list">
+      //     <li><strong>Brief Intake:</strong> Receive brief via task tool. Confirm: duration, platform, tone, music preference, any do-not-use elements.</li>
+      //     <li><strong>First Cut:</strong> Deliver rough cut within deadline. Flag creative questions before starting, not after.</li>
+      //     <li><strong>Review Loop:</strong> Max 2.5 revision rounds on average. More than 3 rounds on a single project requires manager review of the brief-to-execution gap.</li>
+      //     <li><strong>Final Export:</strong> Platform-specific specs. Social: H.264/MP4, correct aspect ratios (9:16, 1:1, 16:9). Cinema/brand film: ProRes if required.</li>
+      //     <li><strong>Filing:</strong> All final exports + project files archived in client folder within 24 hours of approval.</li>
+      //   </ul>
+      //   <div class="callout callout-warning">
+      //     <p><strong>Equipment Policy:</strong> All FlumenX equipment must be handled with professional care. Any damage must be reported immediately to your manager — do not attempt to conceal damage. Negligent damage will be investigated and may result in financial liability depending on circumstances.</p>
+      //   </div>
+      // </div>
+    `
+  },
+
+  // ──────────── VIDEO EDITOR MANUAL ────────────
+  'video-editor-manual': {
+    title: 'Video Editor/Videographer — Management Manual',
+    type: 'manual',
+    content: () => `
+      <div class="doc-cover">
+        <div class="doc-cover-badge manual">Management Manual · Confidential</div>
+        <h1 class="manual-title">Video Editor / Videographer<br><em>Management Escalation Manual</em></h1>
+        <p>For Managers & CEO Only</p>
+        <div class="doc-cover-meta">
+          <div class="doc-cover-meta-item"><div class="dcm-label">Effective</div><div class="dcm-value">June 2026</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Access</div><div class="dcm-value">CEO / HR / Creative Head</div></div>
+        </div>
+      </div>
+      ${manualHeader('Video Editor / Videographer')}
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">M2b</span> Role-Specific Monitoring</div>
+        <table class="doc-table">
+          <tr><th>Issue</th><th>First Response</th><th>Tier</th></tr>
+          <tr><td>Output below 4 videos/day for 1–2 days</td><td>Check for technical blockers</td><td>Coaching</td></tr>
+          <tr><td>Consistent low output (3+ days)</td><td>Verbal Warning + workload review</td><td>Tier 1</td></tr>
+          <tr><td>Repeated late delivery</td><td>Written Warning + timeline audit</td><td>Tier 2</td></tr>
+          <tr><td>Equipment damage (negligent)</td><td>Investigate + Written Warning + liability assessment</td><td>Tier 2</td></tr>
+          <tr><td>Equipment damage (concealed)</td><td>Written Warning + trust assessment</td><td>Tier 2/3</td></tr>
+          <tr><td>Client-facing quality complaints</td><td>Review + coaching first, Warning if repeated</td><td>Tier 1 → 2</td></tr>
+          <tr><td>Using unlicensed music/assets</td><td>Immediate removal + Written Warning</td><td>Tier 2 immediate</td></tr>
+          <tr><td>No-show to shoot without notice</td><td>Written Warning + client damage assessment</td><td>Tier 2/3</td></tr>
+        </table>
+      </div>
+      ${escalationProcedure('Video Editor / Videographer', {
+        tier1: 'Consistent output below minimums (3+ days), first missed delivery deadline, first quality feedback cycle issue.',
+        tier2: 'Repeated deadline failures, equipment negligence, using unlicensed assets, client satisfaction impact.',
+        tier3: 'Third warning, PIP initiated. Pattern of poor quality despite training, no-show on shoot day causing client damage.',
+        tier4: 'PIP failure, deliberate concealment of equipment damage, gross insubordination, data breach, AWOL.'
+      })}
+      ${emailTemplates('Video Editor / Videographer')}
+      ${clientLossProtocol()}
+      ${documentationRequirements()}
+    `
+  },
+
+ 
+
+ 
+
+
+  
+
+}; // end docs object
+
+// ────────────────────────────────────────────
+// NAVIGATION FUNCTIONS
+// ────────────────────────────────────────────
+function openDoc(docId) {
+  const doc = docs[docId];
+  if (!doc) return;
+
+  document.getElementById('hub').style.display = 'none';
+  document.getElementById('doc-view').style.display = 'block';
+
+  document.getElementById('docTopTitle').textContent = doc.title;
+
+  const badge = document.getElementById('docTypeBadge');
+  if (doc.type === 'handbook') {
+    badge.textContent = 'Employee Handbook';
+    badge.className = 'doc-type-badge badge-handbook';
+  } else {
+    badge.textContent = 'Management Manual — Confidential';
+    badge.className = 'doc-type-badge badge-manual';
+  }
+
+  document.getElementById('docContent').innerHTML = doc.content();
+  window.scrollTo(0, 0);
+}
+
+function closeDoc() {
+  document.getElementById('doc-view').style.display = 'none';
+  document.getElementById('hub').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function filterDept(dept, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const sections = document.querySelectorAll('.dept-section');
+  const cards = document.querySelectorAll('.role-card');
+
+  if (dept === 'all') {
+    sections.forEach(s => s.style.display = '');
+    cards.forEach(c => c.style.display = '');
+  } else {
+    cards.forEach(c => {
+      c.style.display = c.dataset.dept === dept ? '' : 'none';
+    });
+    sections.forEach(s => {
+      const visible = Array.from(s.querySelectorAll('.role-card')).some(c => c.style.display !== 'none');
+      s.style.display = visible ? '' : 'none';
+    });
+  }
+}
+
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.role-card');
+  const sections = document.querySelectorAll('.dept-section');
+
+  cards.forEach(c => {
+    const text = c.textContent.toLowerCase();
+    c.style.display = text.includes(q) ? '' : 'none';
+  });
+
+  sections.forEach(s => {
+    const visible = Array.from(s.querySelectorAll('.role-card')).some(c => c.style.display !== 'none');
+    s.style.display = visible ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
